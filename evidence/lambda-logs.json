@@ -1,0 +1,126 @@
+{
+    "events": [
+        {
+            "logStreamName": "2025/08/23/[$LATEST]85d89c85c65161c37261b586826cdb08",
+            "timestamp": 1755970940137,
+            "message": "START RequestId: 5f86834a-c725-4b2a-9fc4-1dbc8bb68b24 Version: $LATEST\n",
+            "ingestionTime": 1755970940967,
+            "eventId": "0"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]85d89c85c65161c37261b586826cdb08",
+            "timestamp": 1755970940137,
+            "message": "Hello from Lambda!\n",
+            "ingestionTime": 1755970940967,
+            "eventId": "1"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]85d89c85c65161c37261b586826cdb08",
+            "timestamp": 1755970940137,
+            "message": "END RequestId: 5f86834a-c725-4b2a-9fc4-1dbc8bb68b24\n",
+            "ingestionTime": 1755970940967,
+            "eventId": "2"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]85d89c85c65161c37261b586826cdb08",
+            "timestamp": 1755970940137,
+            "message": "REPORT RequestId: 5f86834a-c725-4b2a-9fc4-1dbc8bb68b24\tDuration: 1.62 ms\tBilled Duration: 2 ms\tMemory Size: 128 MB\tMax Memory Used: 128 MB\t\n",
+            "ingestionTime": 1755970940967,
+            "eventId": "3"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]85d89c85c65161c37261b586826cdb08",
+            "timestamp": 1755971328036,
+            "message": "START RequestId: 9f27b86b-1220-4a2b-97d1-6131154b8af5 Version: $LATEST\n",
+            "ingestionTime": 1755971328055,
+            "eventId": "4"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]85d89c85c65161c37261b586826cdb08",
+            "timestamp": 1755971328036,
+            "message": "Hello from Lambda!\n",
+            "ingestionTime": 1755971328055,
+            "eventId": "5"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]85d89c85c65161c37261b586826cdb08",
+            "timestamp": 1755971328036,
+            "message": "END RequestId: 9f27b86b-1220-4a2b-97d1-6131154b8af5\n",
+            "ingestionTime": 1755971328055,
+            "eventId": "6"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]85d89c85c65161c37261b586826cdb08",
+            "timestamp": 1755971328036,
+            "message": "REPORT RequestId: 9f27b86b-1220-4a2b-97d1-6131154b8af5\tDuration: 40.34 ms\tBilled Duration: 41 ms\tMemory Size: 128 MB\tMax Memory Used: 128 MB\t\n",
+            "ingestionTime": 1755971328055,
+            "eventId": "7"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]4543f7d51ae4daa7562fc54cde039022",
+            "timestamp": 1755973994844,
+            "message": "START RequestId: f32895d1-16b9-4b07-942e-aaab3c630847 Version: $LATEST\n",
+            "ingestionTime": 1755973995108,
+            "eventId": "8"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]4543f7d51ae4daa7562fc54cde039022",
+            "timestamp": 1755973994844,
+            "message": "Hello from Lambda!\n",
+            "ingestionTime": 1755973995108,
+            "eventId": "9"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]4543f7d51ae4daa7562fc54cde039022",
+            "timestamp": 1755973994844,
+            "message": "END RequestId: f32895d1-16b9-4b07-942e-aaab3c630847\n",
+            "ingestionTime": 1755973995108,
+            "eventId": "10"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]4543f7d51ae4daa7562fc54cde039022",
+            "timestamp": 1755973994844,
+            "message": "REPORT RequestId: f32895d1-16b9-4b07-942e-aaab3c630847\tDuration: 1.19 ms\tBilled Duration: 2 ms\tMemory Size: 128 MB\tMax Memory Used: 128 MB\t\n",
+            "ingestionTime": 1755973995108,
+            "eventId": "11"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]4543f7d51ae4daa7562fc54cde039022",
+            "timestamp": 1755974591138,
+            "message": "START RequestId: 69f89dc6-fcf5-4825-929b-68c70d5b11b9 Version: $LATEST\n",
+            "ingestionTime": 1755974591256,
+            "eventId": "12"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]4543f7d51ae4daa7562fc54cde039022",
+            "timestamp": 1755974591138,
+            "message": "Hello from Lambda!\n",
+            "ingestionTime": 1755974591256,
+            "eventId": "13"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]4543f7d51ae4daa7562fc54cde039022",
+            "timestamp": 1755974591138,
+            "message": "END RequestId: 69f89dc6-fcf5-4825-929b-68c70d5b11b9\n",
+            "ingestionTime": 1755974591256,
+            "eventId": "14"
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]4543f7d51ae4daa7562fc54cde039022",
+            "timestamp": 1755974591138,
+            "message": "REPORT RequestId: 69f89dc6-fcf5-4825-929b-68c70d5b11b9\tDuration: 79.95 ms\tBilled Duration: 80 ms\tMemory Size: 128 MB\tMax Memory Used: 128 MB\t\n",
+            "ingestionTime": 1755974591256,
+            "eventId": "15"
+        }
+    ],
+    "searchedLogStreams": [
+        {
+            "logStreamName": "2025/08/23/[$LATEST]85d89c85c65161c37261b586826cdb08",
+            "searchedCompletely": true
+        },
+        {
+            "logStreamName": "2025/08/23/[$LATEST]4543f7d51ae4daa7562fc54cde039022",
+            "searchedCompletely": true
+        }
+    ]
+}

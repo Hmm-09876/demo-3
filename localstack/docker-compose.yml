@@ -6,7 +6,7 @@ services:
       - "4566:4566"
       - "4560-4560"
     environment:
-      - SERVICES=s3,lambda,iam,sts
+      - SERVICES=s3,lambda,iam,sts,logs
       - DEBUG=1
       - AWS_DEFAULT_REGION=us-east-1
     volumes:

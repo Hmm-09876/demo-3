@@ -1,0 +1,37 @@
+{
+    "Functions": [
+        {
+            "FunctionName": "demo_lambda",
+            "FunctionArn": "arn:aws:lambda:us-east-1:000000000000:function:demo_lambda",
+            "Runtime": "python3.10",
+            "Role": "arn:aws:iam::000000000000:role/lambda-role",
+            "Handler": "handler.handler",
+            "CodeSize": 270,
+            "Description": "",
+            "Timeout": 3,
+            "MemorySize": 128,
+            "LastModified": "2025-08-23T17:41:54.871651+0000",
+            "CodeSha256": "W5kn4JFAM3unTM6xnojrjbRqcxJWY4RQi3fDB+d5YC0=",
+            "Version": "$LATEST",
+            "TracingConfig": {
+                "Mode": "PassThrough"
+            },
+            "RevisionId": "230835ef-bf9a-4417-8af4-5e01f2167fa2",
+            "PackageType": "Zip",
+            "Architectures": [
+                "x86_64"
+            ],
+            "EphemeralStorage": {
+                "Size": 512
+            },
+            "SnapStart": {
+                "ApplyOn": "None",
+                "OptimizationStatus": "Off"
+            },
+            "LoggingConfig": {
+                "LogFormat": "Text",
+                "LogGroup": "/aws/lambda/demo_lambda"
+            }
+        }
+    ]
+}

@@ -1,5 +1,6 @@
 provider "aws" {
-    region = "us-west-1"    
+  region = "us-east-1"
+  
 }
 
 resource "aws_s3_bucket" "demo_bucket" {
@@ -12,7 +13,7 @@ resource "aws_s3_bucket_acl" "acl" {
 }
 
 resource "aws_iam_role" "lambda_exec" {
-    name = "lambda_exec_role"
+    name = "lambda-role"
     
     assume_role_policy = jsonencode({
         Version = "2012-10-17"
