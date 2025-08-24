@@ -1,3 +1,5 @@
 awscli
 awscli-local
+boto3
+pytest
 terraform-local

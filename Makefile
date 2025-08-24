@@ -1,6 +1,6 @@
 FUNC := demo_lambda
 BUCKET := demo-terraform-bucket
-FILETXT := test.txt
+FILETXT := ./tests/test.txt
 
 .PHONY: lambda-invoke lambda-logs s3-upload evidence lambda-update tf-plan lambda-config s3-notify
 
