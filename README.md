@@ -10,8 +10,6 @@
 4. Makefile + CI (GitHub Actions) để tự động hoá.
 ***
 
----
-
 # Những gì cần cài ban đầu
 
 Docker Engine: `https://docs.docker.com/engine/install/ubuntu/`
