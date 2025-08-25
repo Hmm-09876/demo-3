@@ -23,7 +23,7 @@ sudo apt install python3.10 python3-pip make
 
 # Quick start
 
-1. Cài đặt dependencies Python**
+1. Cài đặt dependencies Python
 ```
 cd demo-3-master
 python -m pip install --upgrade pip
