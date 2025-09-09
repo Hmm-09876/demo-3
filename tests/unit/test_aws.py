@@ -1,4 +1,4 @@
-import os, time, pytest, boto3, subprocess, json, urllib.request, pathlib
+import os, time, pytest, boto3, subprocess, urllib.request, pathlib
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -18,8 +18,8 @@ for _ in range(60):
     time.sleep(1)
 
 
-subprocess.run(["terraform", "init", "-input=false"], cwd=TERRAFORM_DIR, check=True)
-subprocess.run(["terraform", "apply", "-auto-approve", "-input=false"], cwd=TERRAFORM_DIR, check=True)  
+subprocess.run(["tflocal", "init", "-input=false"], cwd=TERRAFORM_DIR, check=True)
+subprocess.run(["tflocal", "apply", "-auto-approve", "-input=false"], cwd=TERRAFORM_DIR, check=True)  
 
 
 #############################################################################
