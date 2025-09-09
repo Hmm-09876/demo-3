@@ -119,7 +119,7 @@ jobs:
                 client-payload: |
                   {
                     "ref": "${{ github.ref }}",
-                    "sha": "${{ github.sha }}",
+                    "sha": "${{ github.sha }}"
                   }
 
             - name: Terraform Validate
