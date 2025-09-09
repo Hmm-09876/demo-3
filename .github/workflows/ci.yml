@@ -1,51 +1,170 @@
-name: IaC test on LocalStack
+name: CI
+on : [push, pull_request]
 
-on: [push, pull_request]
+permissions:
+  contents: read
+  id-token: write
+  packages: write
 
 jobs:
-  integration:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    lint:
+        name: Lint (flake8)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+            - name: Set up Python
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.11'
+            
+            - name: Cache pip
+              uses: actions/cache@v4
+              with:
+                path: ~/.cache/pip
+                key: ${{ runner.os }}-pip-${{ hashFiles('**/src/**/requirements.txt') }}
+                restore-keys: |
+                  ${{ runner.os }}-pip-
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3 
+            - name: Install lint dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install flake8
 
-      - name: Start LocalStack
-        working-directory: ./localstack
-        run: |
-          docker compose up -d
+            - name: Run flake8
+              run: |
+                flake8 ./src/demo_app/ || true
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
 
-      - name: Terraform(local) apply
-        working-directory: ./terraform-local
-        run: |
-          tflocal init
-          tflocal apply -auto-approve
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        needs: [lint, terraform]
+        env:
+          LAMBDA_FUNCTION_NAME: ${{ needs.terraform.outputs.lambda_function_name }}
+        strategy:
+          matrix:
+              python-version: [3.11]
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-      - name: Run tests
-        run: |
-          pytest
+            - name: Set up Python
+              uses: actions/setup-python@v4
+              with:
+                python-version: ${{ matrix.python-version }}
 
-      - name: Terraform(local) plan
-        run: |
-          make tf-plan
+            - name: Cache pip
+              uses: actions/cache@v4
+              with:
+                path: ~/.cache/pip
+                key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt','**/src/**/requirements.txt') }}
+                restore-keys: |
+                  ${{ runner.os }}-pip-
+            
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install -r src/demo_app/requirements.txt || true
+                
+            - name: Run tests
+              run: |
+                echo "LAMBDA_FUNCTION_NAME = ${{ env.LAMBDA_FUNCTION_NAME }}"
+                pytest --junitxml=test-reports/junit.xml --cov=report=xml:./test-reports/coverage.xml 
 
-      - name: Collect evidence
-        run: |
-          make evidence
+            - name: Upload test artifacts
+              if: ${{ github.action == 'true' }}
+              uses: actions/upload-artifact@v4
+              with:
+                name: test-reports
+                path: test-reports/
 
-      - name: Tear down
-        if: always()
-        working-directory: ./localstack
-        run: |
-          docker compose down -v
+
+    terraform:
+        name: Terraform Validate
+        runs-on: ubuntu-latest
+        outputs:
+            lambda_function_name: ${{ steps.set_lambda_name.outputs.lambda_function_name }}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
+
+            - name: Start LocalStack
+              working-directory: ./infra/localstack
+              run: |
+                docker compose up -d
+
+            - name: Terraform Init and Apply
+              working-directory: ./infra/terraform
+              run: |
+                terraform init -input=false
+                terraform apply -auto-approve -input=false -var-file=envs/dev.tfvars
+
+            - name: Set Lambda Function Name Output
+              id: set_lambda_name
+              working-directory: ./infra/terraform
+              run: |
+                echo "lambda_function_name=$(terraform output -raw lambda_function_name)" >> $GITHUB_OUTPUT
+
+            - name: Trigger Infra-deploy
+              if: success()
+              uses: peter-evans/workflow-dispatch@v3
+              with:
+                token: ${{ secrets.GITHUB_TOKEN}}
+                event-type: infra-deploy
+                client-payload: |
+                  {
+                    "ref": "${{ github.ref }}",
+                    "sha": "${{ github.sha }}",
+                  }
+
+            - name: Terraform Validate
+              working-directory: ./infra/terraform
+              run: |
+                terraform validate
+              
+    build:
+        name: Build and Push Docker Image
+        runs-on: ubuntu-latest
+        needs: test
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        env:
+            GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Login to Docker Registry
+              
+              if: ${{ env.GHCR_TOKEN != '' }}
+              uses: docker/login-action@v2
+              with:
+                registry: ghcr.io
+                username: ${{ github.actor }}
+                password: ${{ env.GHCR_TOKEN }}
+
+            - name: Build and Push Docker Image
+              uses: docker/build-push-action@v4
+              with:
+                context: ./src/demo_app
+                file: ./src/demo_app/Dockerfile
+                push: ${{ env.GHCR_TOKEN != '' }}
+                tags: ghcr.io/${{ github.repository }}/demo_app:ci-${ github.sha }
+                cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/demo_app:cache || true
+                cache-to: type=inline
+              
+            - name: Upload image metadata
+              if: ${{ github.action == 'true' }}
+              uses: actions/upload-artifact@v4
+              with:
+                name: image-info
+                path: |
+                  image-name.txt
+
+            
+
+  

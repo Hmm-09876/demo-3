@@ -1,7 +1,7 @@
-import os, time, json, pytest, boto3
+import os, time, pytest, boto3
 
 AWS_URL = os.getenv("AWS_URL", "http://localhost:4566")
-FUNC = os.getenv("FUNCTION_NAME", "demo_lambda")
+FUNC = os.getenv("LAMBDA_FUNCTION_NAME", "demo_lambda")
 BUCKET = os.getenv("BUCKET_NAME", "demo-terraform-bucket")
 KEY = os.getenv("OBJECT_KEY", "demo-3-object")
 EVIDENCE_DIR = os.getenv("EVIDENCE_DIR", "evidence")
