@@ -13,7 +13,7 @@ jobs:
     trivy-scan:
         runs-on: ubuntu-latest
         env:
-            IMAGE: ghcr.io/${{ github.repository }}/demo_app:ci-${{ github.event.workflow_run.head_sha }}
+            IMAGE: ghcr.io/${{ github.repository.lowercase }}/demo-app:ci-${{ github.event.workflow_run.head_sha }}
         if: |
             ${{ github.event.workflow_run.conclusion == 'success' }}
             ${{ github.action == 'true' }}
@@ -26,7 +26,7 @@ jobs:
                   password: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Determine Image Tag
-              run: echo "IMAGE=ghcr.io/${{ github.repository }}/demo_app:ci-${{ github.event.workflow_run.head_sha }}" >> $GITHUB_ENV
+              run: echo "IMAGE=ghcr.io/${{ github.repository.lowercase }}/demo-app:ci-${{ github.event.workflow_run.head_sha }}" >> $GITHUB_ENV
 
             - name: Pull Docker Image
               run: docker pull "${IMAGE}"
