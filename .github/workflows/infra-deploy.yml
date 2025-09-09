@@ -15,7 +15,9 @@ jobs:
 
             - name: Setup Terraform
               uses: hashicorp/setup-terraform@v3
-              
+              with:
+                terraform_version: latest
+                
             - name: Terraform Init
               working-directory: ./infra/terraform
               run: terraform init -input=false

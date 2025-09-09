@@ -13,7 +13,7 @@ jobs:
     trivy-scan:
         runs-on: ubuntu-latest
         env:
-            IMAGE: ghcr.io/${{ github.repository }}/demo-app:ci-${{ github.event.workflow_run.head_sha }}
+            IMAGE: ghcr.io/${{ github.repository_owner }}/${{ github.repository }}
         if: |
             ${{ github.event.workflow_run.conclusion == 'success' }}
             ${{ github.action == 'true' }}
