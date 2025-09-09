@@ -18,8 +18,8 @@ for _ in range(60):
     time.sleep(1)
 
 
-subprocess.run(["tflocal", "init", "-input=false"], cwd=TERRAFORM_DIR, check=True)
-subprocess.run(["tflocal", "apply", "-auto-approve", "-input=false"], cwd=TERRAFORM_DIR, check=True)  
+subprocess.run(["terraform", "init", "-input=false"], cwd=TERRAFORM_DIR, check=True)
+subprocess.run(["terraform", "apply", "-auto-approve", "-input=false"], cwd=TERRAFORM_DIR, check=True)  
 
 
 #############################################################################

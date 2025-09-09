@@ -3,4 +3,3 @@ awscli-local
 boto3
 pytest
 pytest-cov
-terraform-local
