@@ -28,6 +28,9 @@ jobs:
             - name: Determine Image Tag
               run: echo "IMAGE=$( echo ${{ env.IMAGE }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
+            - name: Show IMAGE (debug)
+              run: echo "IMAGE=${IMAGE}"
+        
             - name: Pull Docker Image
               run: docker pull "${IMAGE}"
 
