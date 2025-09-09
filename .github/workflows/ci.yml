@@ -75,7 +75,6 @@ jobs:
                 pytest --junitxml=test-reports/junit.xml --cov=report=xml:./test-reports/coverage.xml 
 
             - name: Upload test artifacts
-              if: ${{ github.action == 'true' }}
               uses: actions/upload-artifact@v4
               with:
                 name: test-reports
@@ -88,7 +87,7 @@ jobs:
         needs: terraform
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/test' }}
         env:
-            GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -100,7 +99,7 @@ jobs:
               with:
                 registry: ghcr.io
                 username: ${{ github.actor }}
-                password: ${{ env.GHCR_TOKEN }}
+                password: ${{ env.GITHUB_TOKEN }}
 
             - name: Prepare image names
               shell: bash
