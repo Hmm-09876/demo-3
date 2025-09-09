@@ -102,14 +102,32 @@ jobs:
                 username: ${{ github.actor }}
                 password: ${{ env.GHCR_TOKEN }}
 
+            - name: Prepare image names
+              shell: bash
+              run: |
+                REPO="${{ github.repository }}"
+                REPO_LOWER=$(echo "$REPO" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
+                IMAGE="ghcr.io/${REPO_LOWER}/demo-app:ci-${{ github.sha }}"
+                CACHE_REF="ghcr.io/${REPO_LOWER}/demo-app:cache"
+                echo "REPO_LOWER=$REPO_LOWER" >> $GITHUB_ENV
+                echo "IMAGE=$IMAGE" >> $GITHUB_ENV
+                echo "CACHE_REF=$CACHE_REF" >> $GITHUB_ENV
+                echo "Prepared IMAGE=$IMAGE"
+            
+            - name: Show IMAGE (debug)
+              run: echo "IMAGE=${IMAGE}"
+
             - name: Build and Push Docker Image
               uses: docker/build-push-action@v4
               with:
                 context: ./src/demo_app
                 file: ./src/demo_app/Dockerfile
-                push: ${{ env.GHCR_TOKEN != '' }}
-                tags: ghcr.io/${{ github.repository }}/demo_app:ci-${{ github.sha }}
-                cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/demo_app:cache || true
+                push: true                          
+                tags: |
+                  ${{ env.IMAGE }}
+                  ghcr.io/${{ env.REPO_LOWER }}/demo-app:latest
+                cache-from: |
+                  type=registry,ref=${{ env.CACHE_REF }}
                 cache-to: type=inline
               
             - name: Upload image metadata
