@@ -27,9 +27,11 @@ jobs:
 
             - name: Prepare IMAGE for scan
               run: |
+
                   REPO="${{ github.repository }}"
                   REPO_LOWER=$(echo "$REPO" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
                   echo "IMAGE=ghcr.io/${REPO_LOWER}/demo-app:ci-${{ github.sha }}" >> $GITHUB_ENV
+
         
             - name: Pull Docker Image
               run: docker pull "${IMAGE}"

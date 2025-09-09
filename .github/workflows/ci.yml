@@ -124,7 +124,9 @@ jobs:
               with:
                 context: ./src/demo_app
                 file: ./src/demo_app/Dockerfile
+
                 push: true                          
+
                 tags: |
                   ${{ env.IMAGE }}
                   ghcr.io/${{ env.REPO_LOWER }}/demo-app:latest
