@@ -103,7 +103,7 @@ jobs:
               shell: bash
               run: |
                 REPO="${{ github.repository }}"
-                REPO_LOWER=$(echo "$REPO" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
+                REPO_LOWER=$(echo "$REPO" | tr '[:upper:]' '[:lower:]')
                 IMAGE="ghcr.io/${REPO_LOWER}/demo-app:ci-${{ github.sha }}"
                 CACHE_REF="ghcr.io/${REPO_LOWER}/demo-app:cache"
                 echo "REPO_LOWER=$REPO_LOWER" >> $GITHUB_ENV
