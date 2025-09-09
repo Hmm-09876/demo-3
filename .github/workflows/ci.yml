@@ -108,7 +108,7 @@ jobs:
                 context: ./src/demo_app
                 file: ./src/demo_app/Dockerfile
                 push: ${{ env.GHCR_TOKEN != '' }}
-                tags: ghcr.io/${{ github.repository }}/demo_app:ci-${ github.sha }
+                tags: ghcr.io/${{ github.repository }}/demo_app:ci-${{ github.sha }}
                 cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/demo_app:cache || true
                 cache-to: type=inline
               
