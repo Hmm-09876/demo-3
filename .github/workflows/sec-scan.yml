@@ -25,12 +25,11 @@ jobs:
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Determine Image Tag
+            - name: Prepare IMAGE for scan
               run: |
-
-                echo "IMAGE=$( echo ${{ env.IMAGE }} | tr '[:upper:]' '[:lower:]' | tr '_' '-')" >> $GITHUB_ENV
-
-                echo "IMAGE=${IMAGE}"
+                  REPO="${{ github.repository }}"
+                  REPO_LOWER=$(echo "$REPO" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
+                  echo "IMAGE=ghcr.io/${REPO_LOWER}/demo-app:ci-${{ github.sha }}" >> $GITHUB_ENV
         
             - name: Pull Docker Image
               run: docker pull "${IMAGE}"
