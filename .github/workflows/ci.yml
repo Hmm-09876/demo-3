@@ -60,18 +60,6 @@ jobs:
                 terraform apply -auto-approve -input=false -var-file=envs/dev.tfvars
                 echo "LAMBDA_FUNCTION_NAME=$(terraform output -raw lambda_function_name)" >> $GITHUB_ENV
 
-            - name: Trigger Infra-deploy
-              if: success()
-              uses: peter-evans/repository-dispatch@v3
-              with:
-                token: ${{ secrets.GITHUB_TOKEN}}
-                event-type: infra-deploy
-                client-payload: |
-                  {
-                    "ref": "${{ github.ref }}",
-                    "sha": "${{ github.sha }}"
-                  }
-
             - name: Terraform Validate
               working-directory: ./infra/terraform
               run: |
