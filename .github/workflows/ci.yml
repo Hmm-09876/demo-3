@@ -35,60 +35,14 @@ jobs:
             - name: Run flake8
               run: |
                 flake8 ./src/demo_app/ || true
-
-
-    test:
-        name: Test
-        runs-on: ubuntu-latest
-        needs: [lint, terraform]
-        env:
-          LAMBDA_FUNCTION_NAME: ${{ needs.terraform.outputs.lambda_function_name }}
-        strategy:
-          matrix:
-              python-version: [3.11]
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-
-            - name: Set up Python
-              uses: actions/setup-python@v4
-              with:
-                python-version: ${{ matrix.python-version }}
-
-            - name: Cache pip
-              uses: actions/cache@v4
-              with:
-                path: ~/.cache/pip
-                key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt','**/src/**/requirements.txt') }}
-                restore-keys: |
-                  ${{ runner.os }}-pip-
-
-            - name: Set up Terraform
-              uses: hashicorp/setup-terraform@v3
             
-            - name: Install dependencies
-              run: |
-                python -m pip install --upgrade pip
-                pip install -r src/demo_app/requirements.txt || true
-                
-            - name: Run tests
-              run: |
-                echo "LAMBDA_FUNCTION_NAME = ${{ env.LAMBDA_FUNCTION_NAME }}"
-                pytest --junitxml=test-reports/junit.xml --cov=report=xml:./test-reports/coverage.xml 
-
-            - name: Upload test artifacts
-              if: ${{ github.action == 'true' }}
-              uses: actions/upload-artifact@v4
-              with:
-                name: test-reports
-                path: test-reports/
-
 
     terraform:
         name: Terraform Validate
         runs-on: ubuntu-latest
-        outputs:
-            lambda_function_name: ${{ steps.set_lambda_name.outputs.lambda_function_name }}
+        needs: lint
+        env:
+            LAMBDA_FUNCTION_NAME: abc
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -106,12 +60,7 @@ jobs:
               run: |
                 terraform init -input=false
                 terraform apply -auto-approve -input=false -var-file=envs/dev.tfvars
-
-            - name: Set Lambda Function Name Output
-              id: set_lambda_name
-              working-directory: ./infra/terraform
-              run: |
-                echo "lambda_function_name=$(terraform output -raw lambda_function_name)" >> $GITHUB_OUTPUT
+                echo "LAMBDA_FUNCTION_NAME=$(terraform output -raw lambda_function_name)" >> $GITHUB_ENV
 
             - name: Trigger Infra-deploy
               if: success()
@@ -129,11 +78,29 @@ jobs:
               working-directory: ./infra/terraform
               run: |
                 terraform validate
+
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install -r src/demo_app/requirements.txt || true
+                
+            - name: Run tests
+              run: |
+                echo "LAMBDA_FUNCTION_NAME = ${{ env.LAMBDA_FUNCTION_NAME }}"
+                pytest --junitxml=test-reports/junit.xml --cov=report=xml:./test-reports/coverage.xml 
+
+            - name: Upload test artifacts
+              if: ${{ github.action == 'true' }}
+              uses: actions/upload-artifact@v4
+              with:
+                name: test-reports
+                path: test-reports/
+
               
     build:
         name: Build and Push Docker Image
         runs-on: ubuntu-latest
-        needs: test
+        needs: terraform
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         env:
             GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
