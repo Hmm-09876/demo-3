@@ -105,21 +105,6 @@ jobs:
             - name: Prepare image names
               shell: bash
               run: |
-                REPO="${{ github.repository }}"
-                REPO_LOWER=$(echo "$REPO" | tr '[:upper:]' '[:lower:]')
-                IMAGE="ghcr.io/${REPO_LOWER}/demo-app:ci-${{ github.sha }}"
-                CACHE_REF="ghcr.io/${REPO_LOWER}/demo-app:cache"
-                echo "REPO_LOWER=$REPO_LOWER" >> $GITHUB_ENV
-                echo "IMAGE=$IMAGE" >> $GITHUB_ENV
-                echo "CACHE_REF=$CACHE_REF" >> $GITHUB_ENV
-                echo "Prepared IMAGE=$IMAGE"
-            
-            - name: Show IMAGE (debug)
-              run: echo "IMAGE=${IMAGE}"
-
-            - name: Prepare image names
-              shell: bash
-              run: |
                 REPO="${{ github.repository }}"                      
                 REPO_LOWER=$(echo "$REPO" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
                 IMAGE="ghcr.io/${REPO_LOWER}/demo-app:ci-${{ github.sha }}"
