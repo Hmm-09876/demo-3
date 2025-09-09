@@ -1,28 +1,5 @@
-import os, time, pytest, boto3, subprocess, urllib.request, pathlib
+import os, time, pytest, boto3
 
-
-ROOT = pathlib.Path(__file__).resolve().parents[2]
-LOCALSTACK_COMPOSE = ROOT / "infra" / "localstack" / "docker-compose.yml"
-TERRAFORM_DIR = ROOT / "infra" / "terraform"
-
-
-subprocess.run(["docker", "compose", "-f", str(LOCALSTACK_COMPOSE), "up", "-d"], cwd=ROOT, check=True)
-
-for _ in range(60):
-    try:
-        txt = urllib.request.urlopen("http://localhost:4566/health", timeout=2).read().decode()
-        if "services" in txt or "ready" in txt.lower():
-            break
-    except Exception:
-        pass
-    time.sleep(1)
-
-
-subprocess.run(["terraform", "init", "-input=false"], cwd=TERRAFORM_DIR, check=True)
-subprocess.run(["terraform", "apply", "-auto-approve", "-input=false"], cwd=TERRAFORM_DIR, check=True)  
-
-
-#############################################################################
 
 AWS_URL = os.getenv("AWS_URL", "http://localhost:4566")
 FUNC = os.getenv("LAMBDA_FUNCTION_NAME", "demo_lambda")
