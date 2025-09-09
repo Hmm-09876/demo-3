@@ -26,10 +26,9 @@ jobs:
                   password: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Determine Image Tag
-              run: echo "IMAGE=$( echo ${{ env.IMAGE }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-
-            - name: Show IMAGE (debug)
-              run: echo "IMAGE=${IMAGE}"
+              run: |
+                echo "IMAGE=$( echo ${{ env.IMAGE }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+                echo "IMAGE=${IMAGE}"
         
             - name: Pull Docker Image
               run: docker pull "${IMAGE}"
