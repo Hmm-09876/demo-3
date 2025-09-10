@@ -33,3 +33,9 @@ sudo apt update
 sudo apt install python3.10 python3-pip make
 ```
 
+***
+# Pull & run image từ GHCR
+```
+docker pull ghcr.io/hmm-09876/demo-3/demo-app:ci-89bc489ff38ed8d270bdcedc17a88bc9e774a1d6
+```
+
