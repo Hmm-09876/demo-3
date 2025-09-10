@@ -18,7 +18,6 @@ jobs:
             IMAGE: test
         if: |
             ${{ github.event.workflow_run.conclusion == 'success' }}
-            ${{ github.action == 'true' }}
         steps:
             - name: Login to GitHub Container Registry
               uses: docker/login-action@v2
