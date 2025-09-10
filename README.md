@@ -1,13 +1,15 @@
 [![CI](https://github.com/Hmm-09876/demo-3/actions/workflows/ci.yml/badge.svg)](https://github.com/Hmm-09876/demo-3/actions)
-# Mục tiêu demo-3
+# Mục tiêu đã đạt trong demo-3
 
-1. Terraform (local) tạo S3 bucket + Lambda.
+1. Viết module Terraform cho Lambda & S3.
 
 2. LocalStack (docker-compose) mô phỏng AWS cho test cục bộ.
 
 3. Tests pytest + boto3 để kiểm tra upload S3 và Lambda.
 
 4. Makefile + CI (GitHub Actions) để tự động hoá.
+
+5. Build & push Docker image lên GHCR.
 
 ***
 # Nguồn cài và tham khảo
