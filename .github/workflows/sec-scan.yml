@@ -1,6 +1,5 @@
 name: Security Scan
 on: 
-    push:
     pull_request:
     workflow_run:
         workflows: ["Build and Push Docker Image"]
@@ -18,7 +17,6 @@ jobs:
             IMAGE: test
         if: |
             ${{ github.event.workflow_run.conclusion == 'success' }}
-            ${{ github.action == 'true' }}
         steps:
             - name: Login to GitHub Container Registry
               uses: docker/login-action@v2

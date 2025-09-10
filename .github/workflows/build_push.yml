@@ -1,6 +1,5 @@
 name: Build and Push Docker Image
 on: 
-    push:
     pull_request:
     workflow_run:
         workflows: ["CI"]
