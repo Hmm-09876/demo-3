@@ -61,12 +61,10 @@ jobs:
                 tags: |
                     ${{ env.IMAGE }}
                     ghcr.io/${{ env.REPO_LOWER }}/demo-app:latest
-                    cache-from: |
-                    type=registry,ref=${{ env.CACHE_REF }}
-                    cache-to: type=inline
+                cache-from: type=registry,ref=${{ env.CACHE_REF }}
+                cache-to: type=inline
                 
             - name: Upload image metadata
-              if: ${{ github.action == 'true' }}
               uses: actions/upload-artifact@v4
               with:
                 name: image-info
