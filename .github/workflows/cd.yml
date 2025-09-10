@@ -69,7 +69,12 @@ jobs:
               env:
                 KUBECONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
               run: |
-                echo "$KUBECONFIG_DATA" | base64 --decode > kubeconfig
+                echo "${{ env.KUBECONFIG_DATA }}" | base64 --decode > kubeconfig
+                if [ -n "$KUBECONFIG_DATA" ]; then
+                echo "yes"
+                else
+                echo "no"
+                fi
                 export KUBECONFIG=$PWD/kubeconfig
                 kubectl version
                 kubectl config current-context || true
