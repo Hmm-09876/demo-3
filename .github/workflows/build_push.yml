@@ -62,4 +62,3 @@ jobs:
                     ghcr.io/${{ env.REPO_LOWER }}/demo-app:latest
                 cache-from: type=registry,ref=${{ env.CACHE_REF }}
                 cache-to: type=inline
-                
