@@ -71,7 +71,7 @@ jobs:
               run: |
                 echo "$KUBECONFIG_DATA" | base64 --decode > kubeconfig
                 export KUBECONFIG=$PWD/kubeconfig
-                kubectl version --short
+                kubectl version
                 kubectl config current-context || true
 
             - name: Apply K8s manifests
