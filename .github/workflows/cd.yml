@@ -74,15 +74,12 @@ jobs:
                 kubectl version --short
                 kubectl config current-context || true
 
-            - name: Show image to deploy
-              run: |
-                echo "IMAGE=${{ needs.build-and-push.outputs.image }}"
-
             - name: Apply K8s manifests
               env: 
                 IMAGE: ${{ needs.build-and-push.outputs.image }}
                 NAMESPACE: ${{ secrets.K8S_NAMESPACE || env.K8S_NAMESPACE }}
               run: |
+                echo "IMAGE=${{ needs.build-and-push.outputs.image }}"
                 if kubectl -n "$NAMESPACE" get deployment "${{ env.DEPLOYMENT_NAME }}" >/dev/null 2>&1; then
                     kubectl -n "$NAMESPACE" set image deployment/${{ env.DEPLOYMENT_NAME}} ${{ env.CONTAINER_NAME}}=${IMAGE} --record
                 else
