@@ -67,7 +67,7 @@ jobs:
 
             - name: Restore Kubeconfig from Secret
               env:
-                KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
+                KUBECONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
               run: |
                 echo "$KUBECONFIG_DATA" | base64 --decode > kubeconfig
                 export KUBECONFIG=$PWD/kubeconfig
