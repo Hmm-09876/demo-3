@@ -39,7 +39,8 @@ jobs:
             - name: Determine image name & tag
               id: set-image
               run: |
-                IMAGE="ghcr.io/${{ github.repository }}/demo-app:${{ env.IMAGE_TAG }}-${{ github.sha }}"
+                RAW_IMAGE="ghcr.io/${{ github.repository }}/demo-app:${{ env.IMAGE_TAG }}-${{ github.sha }}"
+                IMAGE=$(echo "$RAW_IMAGE" | tr '[:upper:]' '[:lower:]' | tr '_' '-') 
                 echo "IMAGE=$IMAGE" >> $GITHUB_OUTPUT
 
             - name: Build and Push Docker Image
