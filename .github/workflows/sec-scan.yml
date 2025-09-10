@@ -53,8 +53,7 @@ jobs:
 
             - name: Filter unsupported run results from SARIF
               run: |
-                jq -r '.runs[].tool.driver.name' trivy-report.sarif
-                jq '.runs |= map(select(.tool.driver.name != "Trivy AWS Scanner" and .tool.driver.name != "Trivy Kubernetes Scanner"))' trivy-report.sarif > trivy-report-filtered.sarif
+                jq '.runs |= map(select(.tool.driver.name | test("aws|k8s"; "i") | not))' trivy-report.sarif > trivy-report-filtered.sarif
                 jq -r '.runs[].tool.driver.name' trivy-report-filtered.sarif || true
 
             - name: Convert filtered SARIF to HTML
@@ -70,3 +69,9 @@ jobs:
                   force_orphan: true
                   keep_files: false
                   allow_empty_commit: false
+
+            - name: Upload SARIF artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: trivy-sarif
+                path: trivy-report.sarif
