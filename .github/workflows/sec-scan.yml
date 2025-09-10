@@ -51,14 +51,14 @@ jobs:
               run: |
                   sudo apt-get install -y jq
 
-            - name: Debug SARIF runs (print info to logs)
+            - name: Debug SARIF runs
               run: |
                 echo "=== run driver names ==="
                 jq -r '.runs[].tool.driver.name' trivy-report.sarif || true
                 echo "=== full tool.driver objects ==="
                 jq -C '.runs[] | {name: .tool.driver.name, driver: .tool.driver}' trivy-report.sarif
 
-            - name: "Filter unsupported runs (attempt 1: test common keywords globally)"
+            - name: "Filter unsupported runs"
               run: |
                 jq ' .runs |= map( select( (tostring | test("aws|kubernetes|eks|arn"; "i") ) | not ) ) ' trivy-report.sarif > trivy-report-filtered.sarif
                 echo "Remaining run names:"
@@ -72,7 +72,7 @@ jobs:
                 echo "No convertible runs left after filtering; skip convert."
                 fi
 
-            - name: "Fallback: generate HTML directly from image (always produce human-readable HTML)"
+            - name: "Fallback: generate HTML directly from image"
               run: |
                 trivy image --format template --template "@contrib/html.tpl" --output trivy-image-report.html ${{ env.IMAGE }} || echo "trivy image failed"
 
