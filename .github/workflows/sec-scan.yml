@@ -47,10 +47,18 @@ jobs:
                     output: 'trivy-report.sarif'
                     exit-code: '0'
 
-            - name: Convert SARIF to Markdown
+            - name: Install jq
               run: |
-                  trivy convert --format template --template "@contrib/html.tpl" --output trivy-report.html trivy-report.sarif
+                  sudo apt-get install -y jq
 
+            - name: Filter unsupported run results from SARIF
+              run: |
+                jq '.runs |= map(select(.tool.driver.name | test("AWS|Kubernetes") | not))' trivy-report.sarif > trivy-report-filtered.sarif
+                jq -r '.runs[].tool.driver.name' trivy-report-filtered.sarif || true
+
+            - name: Convert filtered SARIF to HTML
+              run: |
+                  trivy convert --format template --template "@contrib/html.tpl" --output trivy-report.html trivy-report-filtered.sarif
             - name: Deploy to GitHub Pages
               uses: peaceiris/actions-gh-pages@v3
               with:
