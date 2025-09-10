@@ -85,3 +85,4 @@ jobs:
           with:
             name: prepared-k8s-manifests
             path: replaced_k8s/
+
