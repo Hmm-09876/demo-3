@@ -18,6 +18,12 @@ https://docs.docker.com/engine/install/ubuntu/
 Terraform: 
 https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
 
+kind:
+https://kind.sigs.k8s.io/docs/user/quick-start/
+
+kubectl:
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
 Python, pip, Make: 
 ```
 sudo add-apt-repository ppa:deadsnakes/ppa
