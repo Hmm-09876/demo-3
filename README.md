@@ -1,5 +1,7 @@
 [![CI](https://github.com/Hmm-09876/demo-3/actions/workflows/ci.yml/badge.svg)](https://github.com/Hmm-09876/demo-3/actions/workflows/ci.yml)
+
 [![Build and Push Docker Image](https://github.com/Hmm-09876/demo-3/actions/workflows/build_push.yml/badge.svg)](https://github.com/Hmm-09876/demo-3/actions/workflows/build_push.yml)
+
 [![Security Scan](https://github.com/Hmm-09876/demo-3/actions/workflows/sec-scan.yml/badge.svg)](https://github.com/Hmm-09876/demo-3/actions/workflows/sec-scan.yml)
 # Mục tiêu đã đạt trong demo-3
 
