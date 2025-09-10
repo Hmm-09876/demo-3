@@ -15,7 +15,7 @@ jobs:
     trivy-scan:
         runs-on: ubuntu-latest
         env:
-            IMAGE: ghcr.io/${{ github.repository_owner }}/${{ github.sha }}
+            IMAGE: test
         if: |
             ${{ github.event.workflow_run.conclusion == 'success' }}
             ${{ github.action == 'true' }}
@@ -23,19 +23,21 @@ jobs:
             - name: Login to GitHub Container Registry
               uses: docker/login-action@v2
               with:
-                  registry: ghcr.io
-                  username: ${{ github.actor }}
-                  password: ${{ secrets.GITHUB_TOKEN }}
+                registry: ghcr.io
+                username: ${{ github.actor }}
+                password: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Prepare IMAGE for scan
               run: |
-                  REPO="${{ github.repository }}"
-                  REPO_LOWER=$(echo "$REPO" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
-                  echo "IMAGE=ghcr.io/${REPO_LOWER}/demo-app:ci-${{ github.sha }}" >> $GITHUB_ENV
-
-        
+                REPO="${{ github.repository }}"
+                REPO_LOWER=$(echo "$REPO" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
+                echo "IMAGE=ghcr.io/${REPO_LOWER}/demo-app:ci-${{ github.sha }}" >> $GITHUB_ENV
+                  
             - name: Pull Docker Image
-              run: docker pull "${IMAGE}"
+              run: |
+                echo "IMAGE=${{ env.IMAGE }}"
+                docker pull "${{ env.IMAGE }}"
+                
 
             - name: Run Trivy Scan
               uses: aquasecurity/trivy-action@master
