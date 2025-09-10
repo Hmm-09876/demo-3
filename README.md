@@ -9,11 +9,13 @@
 
 2. LocalStack (docker-compose) mô phỏng AWS cho test cục bộ.
 
-3. Tests pytest + boto3 để kiểm tra upload S3 và Lambda.
+3. Tests pytest về boto3 để kiểm tra upload S3 và Lambda và health của web-app.
 
-4. Makefile + CI (GitHub Actions) để tự động hoá.
+4. Makefile, script để tự động hoá wrap lệnh và test nhanh.
 
 5. Build & push Docker image lên GHCR.
+
+6. Hiểu rõ hơn về cơ chế của git và github action (chủ yếu về các nhánh cũng như các loại trigger).
 
 ***
 # Nguồn cài và tham khảo
