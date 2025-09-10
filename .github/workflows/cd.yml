@@ -73,6 +73,9 @@ jobs:
                 echo "${{ env.KUBECONFIG_DATA }}"
                 echo "KUBECONFIG server:"
                 grep "server:" kubeconfig || true
+                export KUBECONFIG=$PWD/kubeconfig
+                kubectl config view
+                kubectl cluster-info
                 kubectl version
 
             - name: Apply K8s manifests
