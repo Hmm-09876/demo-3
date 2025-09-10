@@ -51,27 +51,41 @@ jobs:
               run: |
                   sudo apt-get install -y jq
 
-            - name: Filter unsupported run results from SARIF
+            - name: Debug SARIF runs (print info to logs)
               run: |
-                jq '.runs |= map(select(.tool.driver.name | test("aws|k8s"; "i") | not))' trivy-report.sarif > trivy-report-filtered.sarif
+                echo "=== run driver names ==="
+                jq -r '.runs[].tool.driver.name' trivy-report.sarif || true
+                echo "=== full tool.driver objects ==="
+                jq -C '.runs[] | {name: .tool.driver.name, driver: .tool.driver}' trivy-report.sarif
+
+            - name: "Filter unsupported runs (attempt 1: test common keywords globally)"
+              run: |
+                jq ' .runs |= map( select( (tostring | test("aws|kubernetes|eks|arn"; "i") ) | not ) ) ' trivy-report.sarif > trivy-report-filtered.sarif
+                echo "Remaining run names:"
                 jq -r '.runs[].tool.driver.name' trivy-report-filtered.sarif || true
 
-            - name: Convert filtered SARIF to HTML
+            - name: Convert filtered SARIF to HTML (only if filtered contains something)
               run: |
-                  trivy convert --format template --template "@contrib/html.tpl" --output trivy-report.html trivy-report-filtered.sarif
-                  
-            - name: Deploy to GitHub Pages
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./ 
-                  publish_branch: gh-pages
-                  force_orphan: true
-                  keep_files: false
-                  allow_empty_commit: false
+                if [ "$(jq '.runs | length' trivy-report-filtered.sarif)" -gt 0 ]; then
+                trivy convert --format template --template "@contrib/html.tpl" --output trivy-report.html trivy-report-filtered.sarif
+                else
+                echo "No convertible runs left after filtering; skip convert."
+                fi
+
+            - name: "Fallback: generate HTML directly from image (always produce human-readable HTML)"
+              run: |
+                trivy image --format template --template "@contrib/html.tpl" --output trivy-image-report.html ${{ env.IMAGE }} || echo "trivy image failed"
 
             - name: Upload SARIF artifact
               uses: actions/upload-artifact@v4
               with:
                 name: trivy-sarif
                 path: trivy-report.sarif
+
+            - name: Upload HTML reports
+              uses: actions/upload-artifact@v4
+              with:
+                name: trivy-html
+                path: |
+                    trivy-report.html
+                    trivy-image-report.html
