@@ -13,7 +13,7 @@ permissions:
     packages: write
 
 env:
-  DOCKERFILE_PATH: src/demo_app/Dockerfile
+  DOCKERFILE_PATH: src/demo_app/
   IMAGE_TAG_PREFIX: ci
   K8S_MANIFESTS_PATH: k8s
   K8S_NAMESPACE: ci-deploy
@@ -55,7 +55,7 @@ jobs:
             - name: Build and push image
               uses: docker/build-push-action@v4
               with:
-                context: ./
+                context: ${{ env.DOCKERFILE_PATH }}
                 file: ${{ env.DOCKERFILE_PATH }}
                 push: ${{ secrets.GHCR_TOKEN != '' }}
                 tags: ${{ steps.set-image.outputs.image }}
