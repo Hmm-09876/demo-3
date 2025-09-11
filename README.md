@@ -5,22 +5,21 @@
 [![Security Scan](https://github.com/Hmm-09876/demo-3/actions/workflows/sec-scan.yml/badge.svg)](https://github.com/Hmm-09876/demo-3/actions/workflows/sec-scan.yml)
 # Mục tiêu đã đạt trong demo-3
 
-<<<<<<< HEAD
 1. Viết module Terraform cho Lambda & S3.
 
 2. LocalStack (docker-compose) mô phỏng AWS để test cục bộ.
 
-3. Tests: pytest + boto3 để kiểm tra upload S3 và deploy Lambda (unit + integration).
+3. Tests: pytest để kiểm tra upload S3 deploy Lambda + web-app health.
 
 4. CI: lint, pytest, terraform validate và build image.
 
 5. Makefile, script để tự động hoá wrap lệnh và test nhanh.
 
-6. Build & push Docker image lên GHCR (tag: `ghcr.io/<owner>/<repo>/demo-app:ci-<sha>`).
+6. Build & push Docker image lên GHCR.
 
 7. Security scan: scan image (Trivy).
 
-8. CD:  
+8. CD (self-hosted runner):  
    - Build image → push GHCR (nếu có `GHCR_TOKEN`).  
    - Restore kubeconfig từ secret (`KUBE_CONFIG`).  
    - Deploy vào namespace `ci-deploy` (hoặc `K8S_NAMESPACE`), dùng `kubectl set image` hoặc thay `IMAGE_PLACEHOLDER` trong `k8s/` và `kubectl apply`.  
@@ -53,6 +52,6 @@ sudo apt install python3.10 python3-pip make
 ***
 # Pull & run image từ GHCR
 ```
-docker pull ghcr.io/hmm-09876/demo-3/demo-app:ci-89bc489ff38ed8d270bdcedc17a88bc9e774a1d6
+docker pull ghcr.io/hmm-09876/demo-3/demo-app:ci-54fca15914be974f1fed0ae748c076fba4f39c4b
 ```
 
