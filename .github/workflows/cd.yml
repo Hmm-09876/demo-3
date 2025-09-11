@@ -40,7 +40,7 @@ jobs:
             - name: Determine image name & tag
               id: set-image
               run: |
-                IMAGE=$(echo"ghcr.io/${{ github.repository }}/demo-app:${{ env.IMAGE_TAG }}-${{ github.sha }}" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
+                IMAGE=$(echo "ghcr.io/${{ github.repository }}/demo-app:${{ env.IMAGE_TAG }}-${{ github.sha }}" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
                 echo "IMAGE=$IMAGE" >> $GITHUB_OUTPUT
 
             - name: Build and Push Docker Image
@@ -50,7 +50,7 @@ jobs:
                 file: ${{ env.DOCKERFILE }}
                 push: ${{ env.GHCR_TOKEN_ENV != '' }}
                 tags: ${{ steps.set-image.outputs.image }}
-                cache-from: type=registry,ref=${{ steps.set-image.outputs.image }} || true
+                cache-from: type=registry,ref=${{ steps.set-image.outputs.image }} 
                 cache-to: type=inline
 
     deploy:
