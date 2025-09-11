@@ -5,7 +5,6 @@
 [![Security Scan](https://github.com/Hmm-09876/demo-3/actions/workflows/sec-scan.yml/badge.svg)](https://github.com/Hmm-09876/demo-3/actions/workflows/sec-scan.yml)
 # Mục tiêu đã đạt trong demo-3
 
-<<<<<<< HEAD
 1. Viết module Terraform cho Lambda & S3.
 
 2. LocalStack (docker-compose) mô phỏng AWS để test cục bộ.
@@ -16,7 +15,7 @@
 
 5. Makefile, script để tự động hoá wrap lệnh và test nhanh.
 
-6. Build & push Docker image lên GHCR (tag: `ghcr.io/<owner>/<repo>/demo-app:ci-<sha>`).
+6. Build & push Docker image lên GHCR.
 
 7. Security scan: scan image (Trivy).
 
@@ -53,6 +52,6 @@ sudo apt install python3.10 python3-pip make
 ***
 # Pull & run image từ GHCR
 ```
-docker pull ghcr.io/hmm-09876/demo-3/demo-app:ci-89bc489ff38ed8d270bdcedc17a88bc9e774a1d6
+docker pull ghcr.io/hmm-09876/demo-3/demo-app:ci-69fbad2a84406b798e80ca5d17d86c61b8842365
 ```
 
