@@ -40,8 +40,7 @@ jobs:
             - name: Determine image name & tag
               id: set-image
               run: |
-                echo "IMAGE="ghcr.io/${{ github.repository }}/demo-app:${{ env.IMAGE_TAG }}-${{ github.sha }}" | tr '[:upper:]' '[:lower:]' | tr '_' '-'" >> $GITHUB_OUTPUT
-
+                echo "IMAGE="ghcr.io/${{ github.repository }}/demo-app:${{ env.IMAGE_TAG }}-${{ github.sha }}"" | tr '[:upper:]' '[:lower:]' | tr '_' '-'
                 echo "IMAGE=$IMAGE" >> $GITHUB_OUTPUT
 
             - name: Build and Push Docker Image
@@ -56,7 +55,7 @@ jobs:
 
     deploy:
         name: Deploy to K8s
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         needs: build-and-push
         steps:
             - name: Checkout code
