@@ -56,7 +56,7 @@ jobs:
         name: Deploy to K8s
         runs-on: self-hosted
         needs: build-and-push
-        environment: production
+        # environment: production
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
