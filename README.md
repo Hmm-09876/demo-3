@@ -9,7 +9,7 @@
 
 2. LocalStack (docker-compose) mô phỏng AWS để test cục bộ.
 
-3. Tests: pytest + boto3 để kiểm tra upload S3 và deploy Lambda (unit + integration).
+3. Tests: pytest để kiểm tra upload S3 deploy Lambda + web-app health.
 
 4. CI: lint, pytest, terraform validate và build image.
 
