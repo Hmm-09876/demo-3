@@ -2,7 +2,7 @@ name: Security Scan
 on: 
     pull_request:
     workflow_run:
-        workflows: ["CD"]
+        workflows: ["CD - Build & Deploy to K8s"]
         types:
             - completed
             
