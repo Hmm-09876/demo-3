@@ -5,6 +5,7 @@
 [![Security Scan](https://github.com/Hmm-09876/demo-3/actions/workflows/sec-scan.yml/badge.svg)](https://github.com/Hmm-09876/demo-3/actions/workflows/sec-scan.yml)
 # Mục tiêu đã đạt trong demo-3
 
+<<<<<<< HEAD
 1. Viết module Terraform cho Lambda & S3.
 
 2. LocalStack (docker-compose) mô phỏng AWS để test cục bộ.
