@@ -1,6 +1,7 @@
 name: CD - Build & Deploy to K8s
 
 on:
+    push:
     workflow_dispatch:
 
 permissions:
