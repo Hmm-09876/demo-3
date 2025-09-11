@@ -19,7 +19,7 @@
 
 7. Security scan: scan image (Trivy).
 
-8. CD:  
+8. CD (self-hosted runner):  
    - Build image → push GHCR (nếu có `GHCR_TOKEN`).  
    - Restore kubeconfig từ secret (`KUBE_CONFIG`).  
    - Deploy vào namespace `ci-deploy` (hoặc `K8S_NAMESPACE`), dùng `kubectl set image` hoặc thay `IMAGE_PLACEHOLDER` trong `k8s/` và `kubectl apply`.  
